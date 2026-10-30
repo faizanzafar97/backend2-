@@ -21,7 +21,7 @@ app.use(expressSession({
   secret:"hi"
 }));
 
-app.use(flash)
+app.use(flash());
 
 app.use(logger('dev'));
 app.use(express.json());
