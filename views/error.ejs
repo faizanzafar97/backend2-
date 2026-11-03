@@ -14,3 +14,8 @@
     <main class="error-content"><span class="eyebrow">A LITTLE DETOUR</span><div class="error-code" aria-hidden="true"><%= status %><span class="error-leaf"><svg><use href="#icon-leaf"/></svg></span></div><h1><%= status === 404 ? 'A little off the beaten path.' : 'Something needs a little care.' %></h1><p><%= status === 404 ? "This page seems to have wandered off. Let's get you somewhere familiar." : message %></p><div class="error-actions"><a class="button button-primary" href="/">Back to home <svg class="icon"><use href="#icon-arrow"/></svg></a><button class="button button-secondary" type="button" data-reload hidden>Try again</button></div><% if (error.stack) { %><details class="error-details"><summary>Technical details</summary><pre><%= error.stack %></pre></details><% } %></main>
   </body>
 </html>
+
+
+
+
+
