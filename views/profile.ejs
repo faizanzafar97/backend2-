@@ -3,11 +3,46 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Profile</title>
+    <meta name="theme-color" content="#173e33">
+    <title>Your space | Nest</title>
+    <link rel="icon" href="/images/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="/stylesheets/style.css">
+    <script src="/javascripts/app.js" defer></script>
   </head>
-  <body>
-    <h1>Welcome, <%= user.username %></h1>
-    <a href="/logout">Sign out</a>
+  <body class="profile-page">
+    <%- include('partials/icons') %>
+    <% const initial = Array.from(user.username || '?')[0].toUpperCase(); %>
+    <% const joined = user.datecreated && !isNaN(new Date(user.datecreated).getTime()) ? new Date(user.datecreated).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Not available'; %>
+    <a class="skip-link" href="#overview">Skip to content</a>
+    <div class="dashboard">
+      <aside class="sidebar" aria-label="Main navigation">
+        <a class="brand" href="/profile"><span class="brand-mark"><svg class="icon"><use href="#icon-leaf"/></svg></span> nest<span class="brand-dot">.</span></a>
+        <span class="nav-label">YOUR WORKSPACE</span>
+        <nav class="side-nav">
+          <a class="nav-link active" href="#overview" aria-current="location"><svg class="icon"><use href="#icon-grid"/></svg>Overview<svg class="icon nav-arrow"><use href="#icon-arrow"/></svg></a>
+          <a class="nav-link" href="#account"><svg class="icon"><use href="#icon-user"/></svg>My account</a>
+          <a class="nav-link" href="#personal"><svg class="icon"><use href="#icon-lock"/></svg>Personal space</a>
+        </nav>
+        <div class="sidebar-note"><svg class="icon"><use href="#icon-leaf"/></svg><h3>A little space.<br>A lot of possibility.</h3><p>Make it your own, one day at a time.</p></div>
+        <div class="sidebar-bottom"><div class="avatar avatar-small"><%= initial %></div><div class="sidebar-identity"><strong><%= user.username %></strong><span>Personal account</span></div><a class="icon-button" href="/logout" aria-label="Sign out" title="Sign out"><svg class="icon"><use href="#icon-logout"/></svg></a></div>
+      </aside>
+
+      <div class="workspace">
+        <header class="workspace-header"><div class="breadcrumbs">My workspace <span>/</span> <strong>Overview</strong></div><div class="header-actions"><span class="session-pill"><span class="status-dot"></span> Signed in</span><button class="icon-button" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Change theme"><svg class="icon"><use href="#icon-sun"/></svg></button><div class="avatar avatar-tiny" aria-hidden="true"><%= initial %></div></div></header>
+        <main class="workspace-main" id="overview">
+          <div class="page-heading"><div><span class="eyebrow">YOUR PERSONAL CORNER</span><h1>Welcome, <%= user.username %><span class="accent-dot">.</span></h1><p>Good to have you here. Let's make this space yours.</p></div><time class="today-label" data-live-date></time></div>
+
+          <section class="welcome-banner" aria-labelledby="banner-title"><div><span class="eyebrow light-eyebrow">SETTLE IN. YOU'RE HOME.</span><h2 id="banner-title">A little more <em>you.</em></h2><p>Your details, your story, your own space to grow.</p><a class="button button-cream" href="#account">Explore my account <svg class="icon"><use href="#icon-arrow"/></svg></a></div><div class="banner-art" aria-hidden="true"><span class="banner-orbit"></span><span class="banner-leaf"><svg><use href="#icon-leaf"/></svg></span><span class="banner-spark">✳</span></div></section>
+
+          <div class="profile-grid">
+            <section class="panel account-panel" id="account" aria-labelledby="account-title"><div class="panel-heading"><div class="panel-icon"><svg class="icon"><use href="#icon-user"/></svg></div><div><h2 id="account-title">The person behind the profile</h2><p>A few things that make you, you.</p></div></div><div class="identity-row"><div class="avatar avatar-large"><%= initial %></div><div><h3><%= user.nickname || user.username %></h3><span class="handle">@<%= user.username %></span></div><span class="member-badge">Member</span></div><dl class="account-details"><div><dt>Username</dt><dd><span><%= user.username %></span><button class="icon-button copy-button" type="button" data-copy-username aria-label="Copy username" hidden><svg class="icon"><use href="#icon-copy"/></svg></button></dd></div><div><dt>Nickname</dt><dd><%= user.nickname || 'Not added yet' %></dd></div><div><dt>Member since</dt><dd><%= joined %></dd></div><div><dt>About you</dt><dd class="description"><%= user.description || 'Your story is still being written.' %></dd></div></dl><% if (user.categories && user.categories.length) { %><div class="interests"><span class="eyebrow">YOUR INTERESTS</span><div class="tag-list"><% user.categories.forEach(function(category) { %><span class="tag"><%= category %></span><% }); %></div></div><% } %></section>
+
+            <div class="profile-aside"><section class="panel secret-panel" id="personal" aria-labelledby="personal-title"><div class="panel-heading"><div class="panel-icon warm-icon"><svg class="icon"><use href="#icon-lock"/></svg></div><div><h2 id="personal-title">Just for you</h2><p>A little note in your personal corner.</p></div></div><% if (user.secret) { %><div class="secret-box"><span class="eyebrow">YOUR LITTLE SECRET</span><p class="secret-value" data-secret-value hidden><%= user.secret %></p><p class="secret-mask" data-secret-mask>••••••••</p><button class="text-button" type="button" data-secret-toggle aria-expanded="false" hidden>Reveal my note <span aria-hidden="true">↗</span></button><noscript><p>Enable JavaScript to reveal your note.</p></noscript></div><% } else { %><div class="empty-note"><svg class="icon"><use href="#icon-leaf"/></svg><p>No personal note yet.</p><span>Sometimes a little mystery is a good thing.</span></div><% } %><p class="field-hint">A profile note, not a place for passwords or sensitive information.</p></section><section class="thought-card"><span class="eyebrow">A GENTLE REMINDER</span><p>“You don't have to have it all figured out to take the next step.”</p><div><span class="small-line"></span> One day at a time.</div></section></div>
+          </div>
+          <footer class="workspace-footer"><span>A little space to call your own.</span><a href="/logout">Sign out <svg class="icon"><use href="#icon-logout"/></svg></a></footer>
+        </main>
+      </div>
+    </div>
+    <div class="toast" role="status" aria-live="polite" data-toast hidden></div>
   </body>
 </html>

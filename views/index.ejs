@@ -3,28 +3,70 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sign in or register</title>
+    <meta name="theme-color" content="#173e33">
+    <meta name="description" content="A little space to call your own. Sign in to Nest or create your account.">
+    <title>Welcome to Nest</title>
+    <link rel="icon" href="/images/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="/stylesheets/style.css">
+    <script src="/javascripts/app.js" defer></script>
   </head>
-  <body>
-    <h1>Welcome</h1>
-    <% errors.forEach(function(message) { %>
-      <p role="alert"><%= message %></p>
-    <% }); %>
+  <body class="auth-page">
+    <%- include('partials/icons') %>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <main class="auth-shell" id="main">
+      <section class="auth-story" aria-labelledby="story-title">
+        <a class="brand brand-light" href="/" aria-label="Nest home"><span class="brand-mark"><svg class="icon"><use href="#icon-leaf"/></svg></span> nest<span class="brand-dot">.</span></a>
+        <div class="story-content">
+          <span class="eyebrow light-eyebrow"><span class="status-dot"></span> A SPACE THAT'S YOURS</span>
+          <h1 id="story-title">Make yourself <br>at <em>home.</em></h1>
+          <p>A fresh start. A familiar place. Your own little corner of the internet.</p>
+          <div class="nest-art" aria-hidden="true">
+            <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div>
+            <div class="art-disc"><svg><use href="#icon-leaf"/></svg></div>
+            <div class="art-note note-one"><span class="note-check"><svg class="icon"><use href="#icon-check"/></svg></span><div><strong>A little more you</strong><small>Your space, your story.</small></div></div>
+            <div class="art-note note-two"><span class="mini-avatar">you</span><div><strong>Right where you belong</strong><small>Settle in. Stay a while.</small></div></div>
+            <span class="art-spark spark-one">✳</span><span class="art-spark spark-two">+</span>
+          </div>
+        </div>
+        <div class="story-footer"><span class="footer-line"></span> Good things start with a little space.</div>
+      </section>
 
-    <h2>Sign in</h2>
-    <form action="/login" method="post">
-      <p><label>Username <input name="username" autocomplete="username" required></label></p>
-      <p><label>Password <input type="password" name="password" autocomplete="current-password" required></label></p>
-      <button type="submit">Sign in</button>
-    </form>
+      <section class="auth-main" aria-label="Your account">
+        <div class="auth-topline"><span>YOUR NEXT CHAPTER STARTS HERE</span><button class="icon-button" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Change theme"><svg class="icon"><use href="#icon-sun"/></svg></button></div>
+        <div class="auth-content">
+          <div class="auth-tabs" role="tablist" aria-label="Choose how to continue" hidden>
+            <button id="tab-login" class="auth-tab" type="button" role="tab" aria-controls="panel-login" aria-selected="true" data-tab="login">Sign in</button>
+            <button id="tab-register" class="auth-tab" type="button" role="tab" aria-controls="panel-register" aria-selected="false" tabindex="-1" data-tab="register">Create account</button>
+          </div>
+          <% errors.forEach(function(message) { %>
+            <div class="alert" data-alert><svg class="icon"><use href="#icon-info"/></svg><p role="alert"><%= message %></p><button class="icon-button" type="button" data-dismiss-alert aria-label="Dismiss message"><svg class="icon"><use href="#icon-close"/></svg></button></div>
+          <% }); %>
 
-    <h2>Register</h2>
-    <form action="/register" method="post">
-      <p><label>Username <input name="username" autocomplete="username" required></label></p>
-      <p><label>Password <input type="password" name="password" autocomplete="new-password" required></label></p>
-      <p><label>Secret (optional) <input name="secret"></label></p>
-      <button type="submit">Register</button>
-    </form>
+          <section id="panel-login" data-panel="login" aria-labelledby="login-title">
+            <div class="form-heading"><span class="eyebrow">WELCOME BACK</span><h2 id="login-title">Hello again<span class="accent-dot">.</span></h2><p>Your space is just a sign-in away.</p></div>
+            <form action="/login" method="post" data-auth-form>
+              <div class="field"><label for="login-username">Username</label><div class="input-wrap"><svg class="icon"><use href="#icon-user"/></svg><input id="login-username" name="username" placeholder="Enter your username" autocomplete="username" required></div></div>
+              <div class="field"><label for="login-password">Password</label><div class="input-wrap"><svg class="icon"><use href="#icon-lock"/></svg><input id="login-password" type="password" name="password" placeholder="Enter your password" autocomplete="current-password" required><button class="input-action" type="button" data-password-toggle="login-password" aria-label="Show password" aria-pressed="false" hidden>Show</button></div></div>
+              <p class="caps-warning" data-caps-warning hidden>Caps Lock is on.</p>
+              <button class="button button-primary submit-button" type="submit"><span data-button-label>Sign in</span><svg class="icon"><use href="#icon-arrow"/></svg></button>
+            </form>
+            <p class="form-switch">New around here? <a href="#panel-register" data-switch-tab="register">Make yourself at home <span aria-hidden="true">↗</span></a></p>
+          </section>
+
+          <section id="panel-register" class="register-panel" data-panel="register" aria-labelledby="register-title">
+            <div class="form-heading"><span class="eyebrow">A FRESH START</span><h2 id="register-title">Find your space<span class="accent-dot">.</span></h2><p>A few details, and you're right at home.</p></div>
+            <form action="/register" method="post" data-auth-form>
+              <div class="field"><label for="register-username">Username</label><div class="input-wrap"><svg class="icon"><use href="#icon-user"/></svg><input id="register-username" name="username" placeholder="What should we call you?" autocomplete="username" required></div></div>
+              <div class="field"><label for="register-password">Password</label><div class="input-wrap"><svg class="icon"><use href="#icon-lock"/></svg><input id="register-password" type="password" name="password" placeholder="Create a password" autocomplete="new-password" aria-describedby="password-guidance" required><button class="input-action" type="button" data-password-toggle="register-password" aria-label="Show password" aria-pressed="false" hidden>Show</button></div><div class="password-meter" data-password-meter hidden><span></span><span></span><span></span><span></span></div><p class="field-hint" id="password-guidance" data-password-guidance>Tip: use 8+ characters with a mix of letters and numbers.</p></div>
+              <div class="field"><label for="register-secret">A little secret <span class="optional">optional</span></label><div class="input-wrap"><svg class="icon"><use href="#icon-leaf"/></svg><input id="register-secret" type="password" name="secret" placeholder="Something just for you" autocomplete="off"><button class="input-action" type="button" data-password-toggle="register-secret" aria-label="Show secret" aria-pressed="false" hidden>Show</button></div><p class="field-hint">A personal note for your profile. Don't use a password here.</p></div>
+              <p class="caps-warning" data-caps-warning hidden>Caps Lock is on.</p>
+              <button class="button button-primary submit-button" type="submit"><span data-button-label>Create my account</span><svg class="icon"><use href="#icon-arrow"/></svg></button>
+            </form>
+            <p class="form-switch">Already part of the nest? <a href="#panel-login" data-switch-tab="login">Sign in <span aria-hidden="true">↗</span></a></p>
+          </section>
+        </div>
+        <footer class="auth-footer"><span>Made for your everyday.</span><span>© <%= new Date().getFullYear() %> Nest</span></footer>
+      </section>
+    </main>
   </body>
 </html>
