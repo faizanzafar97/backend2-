@@ -3,14 +3,28 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <title>Sign in or register</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
   </head>
   <body>
-    <div class="alert alert-danger alert-dismissible" role="alert">
-    <p>Something’s wrong, check the fields below and try again.</p>
-    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <h1>Welcome</h1>
+    <% errors.forEach(function(message) { %>
+      <p role="alert"><%= message %></p>
+    <% }); %>
+
+    <h2>Sign in</h2>
+    <form action="/login" method="post">
+      <p><label>Username <input name="username" autocomplete="username" required></label></p>
+      <p><label>Password <input type="password" name="password" autocomplete="current-password" required></label></p>
+      <button type="submit">Sign in</button>
+    </form>
+
+    <h2>Register</h2>
+    <form action="/register" method="post">
+      <p><label>Username <input name="username" autocomplete="username" required></label></p>
+      <p><label>Password <input type="password" name="password" autocomplete="new-password" required></label></p>
+      <p><label>Secret (optional) <input name="secret"></label></p>
+      <button type="submit">Register</button>
+    </form>
   </body>
 </html>

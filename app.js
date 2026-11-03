@@ -7,7 +7,7 @@ const expressSession=require("express-session");
 const flash =require("connect-flash");
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var userModel = require('./routes/users');
 const passport=require("passport");
 
 var app = express();
@@ -19,13 +19,14 @@ app.set('view engine', 'ejs');
 app.use(expressSession({
   resave:false,
   saveUninitialized:false,
-  secret:"hi"
+  secret:process.env.SESSION_SECRET || 'backend2-development-secret'
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
-passport.serializeUser(usersRouter.serializeUser());
-passport.deserializeUser(usersRouter.deserializeUser());
+passport.use(userModel.createStrategy());
+passport.serializeUser(userModel.serializeUser());
+passport.deserializeUser(userModel.deserializeUser());
 
 app.use(flash());
 
@@ -37,7 +38,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

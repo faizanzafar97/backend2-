@@ -1,9 +1,10 @@
 const mongoose= require("mongoose");
 
-mongoose.connect("mongodb://127.0.0.1:27017/backend2");
+const passportLocalMongoose = require('passport-local-mongoose').default;
 
 const userSchema=mongoose.Schema({
-  username:String,
+  username: { type: String, required: true, unique: true },
+  secret:String,
   nickname:String,
   description:String,
   categories:{
@@ -12,8 +13,10 @@ const userSchema=mongoose.Schema({
   },
   datecreated:{
     type:Date,
-    default:Date.now()
+    default:Date.now
   }
 })
+
+userSchema.plugin(passportLocalMongoose);
 
 module.exports=mongoose.model("user",userSchema);
