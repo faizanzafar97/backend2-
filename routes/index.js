@@ -21,7 +21,6 @@ router.get('/register', function(req, res) {
   username:String,
   secret:String
 })
-});
 
 userModel.register(userdata,req.body.password)
  .then(function(registeredUser){
@@ -31,6 +30,27 @@ userModel.register(userdata,req.body.password)
 
 });
 
+});
 
+router.post("/login",passport.authenticate("local",{
+  successRedirect:"/profile",
+  failureRedirect:"/"
+}),function(req,res){});
+
+router.get("/logout",function(req,res,next){
+  req.logout(function(err){
+    if(err){
+      return next(err);
+    }
+    res.redirect("/");
+  });
+});
+
+function isLoggedIn(req,res,next){
+  if(req.isAuthenticated()){
+    return next();
+  }
+  res.redirect("/");
+}
 
 module.exports = router;
